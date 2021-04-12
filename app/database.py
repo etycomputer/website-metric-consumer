@@ -1,6 +1,6 @@
 import psycopg2
 import logging
-from config import postgres_connection_config_params
+from config import postgres_connection_config_params, target_website_simulator_url
 
 
 class MyPostgresDB:
@@ -34,12 +34,15 @@ PRIMARY KEY (sample_timestamp, url_id))""".format(prefix=self.prefix))
     def seed_db(self):
         """Populating the tables in PostgreSQL"""
         queries = ("""INSERT INTO {prefix}target_urls (is_enabled, sample_frequency_s, url_path, regex_pattern) 
-VALUES (DEFAULT, DEFAULT, 'http://localhost', DEFAULT), 
-(FALSE, DEFAULT, 'http://localhost/sleep', DEFAULT), 
-(TRUE, 10, 'http://localhost/sleep/1', DEFAULT), 
-(TRUE, 5, 'http://localhost/sleep/1/25', DEFAULT), 
-(FALSE, DEFAULT, 'http://localhost/sleep/1', 'SUCCESSFUL'), 
-(FALSE, DEFAULT, 'http://localhost/sleep/1/25', 'SKIPPED')""".format(prefix=self.prefix), )
+VALUES (DEFAULT, DEFAULT, '{url}', DEFAULT), 
+(FALSE, DEFAULT, '{url}/sleep', DEFAULT), 
+(FALSE, 10, '{url}/sleep/1', DEFAULT), 
+(FALSE, 5, '{url}/sleep/1/25', DEFAULT), 
+(TRUE, 1, '{url}/sleep/1', 'SUCCESSFUL'), 
+(TRUE, 1, '{url}/sleep/1/25', 'SKIPPED')""".format(
+            prefix=self.prefix,
+            url=target_website_simulator_url
+        ), )
         return queries if self.testing is True else self.execute_queries(queries)
 
     def drop_db(self):

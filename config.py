@@ -9,3 +9,5 @@ postgres_connection_config_params = {
 }
 
 integration_mode = False
+
+target_website_simulator_url = os.getenv('TARGET_SIMULATOR_HOST')
