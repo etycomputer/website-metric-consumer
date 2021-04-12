@@ -2,7 +2,7 @@ import unittest
 from tests import app_factory
 
 
-class MyTest(unittest.TestCase):
+class MyConsumerTest(unittest.TestCase):
     app = None
 
     def setUp(self):
