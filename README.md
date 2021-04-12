@@ -69,7 +69,7 @@ set TARGET_SIMULATOR_HOST=https://simple-flask-website-simulator.herokuapp.com
 ```
 ---
 
-##Requirements
+## Requirements
 
 This project utilizes the following requirements:
 
