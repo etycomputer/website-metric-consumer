@@ -5,6 +5,7 @@ iniconfig==1.1.1
 kafka-python==2.0.2
 packaging==20.9
 pluggy==0.13.1
+psycopg2==2.8.6
 py==1.10.0
 pyparsing==2.4.7
 pytest==6.2.3
