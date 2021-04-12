@@ -4,6 +4,8 @@ logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.INFO, datef
 
 
 class Consumer:
+    log = None
+
     def __init__(self, log: logging):
         self.log = log
 
