@@ -51,3 +51,4 @@ pip install -r requirements.txt
 This project utilizes the following requirements:
 
 1. Python v3.8.1
+1. pytest v6.2.3
