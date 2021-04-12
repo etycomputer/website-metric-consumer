@@ -11,25 +11,25 @@ class MyPostgresDB:
     def __init__(self, log: logging, test_mode=None):
         self.log = log
         self.testing = test_mode
-        self.prefix = '' if self.testing is True else 'testing_'
+        self.prefix = '' if self.testing is None else 'testing_'
 
     def create_db(self):
         """Create the tables in PostgreSQL if they don't already exist"""
-        queries = ("""CREATE TABLE {prefix}target_urls (
+        queries = ("""CREATE TABLE IF NOT EXISTS {prefix}target_urls (
 url_id SERIAL NOT NULL PRIMARY KEY, 
 is_enabled BOOLEAN NOT NULL DEFAULT FALSE,  
 sample_frequency_s INTEGER NOT NULL DEFAULT 60,
 url_path TEXT NOT NULL, 
 regex_pattern TEXT DEFAULT NULL)""".format(prefix=self.prefix),
                    """CREATE INDEX idx_is_enabled ON {prefix}target_urls(is_enabled)""".format(prefix=self.prefix),
-                   """CREATE TABLE {prefix}url_performance_metrics (
+                   """CREATE TABLE IF NOT EXISTS {prefix}url_performance_metrics (
 sample_timestamp TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, 
 url_id INTEGER REFERENCES {prefix}target_urls(url_id) NOT NULL,
 response_code INTEGER NOT NULL,
 response_time DOUBLE PRECISION NOT NULL,
 match_found BOOLEAN NOT NULL,
 PRIMARY KEY (sample_timestamp, url_id))""".format(prefix=self.prefix))
-        return queries if self.testing is not None else self.execute_queries(queries)
+        return queries if self.testing is True else self.execute_queries(queries)
 
     def seed_db(self):
         """Populating the tables in PostgreSQL"""
@@ -40,13 +40,13 @@ VALUES (DEFAULT, DEFAULT, 'http://localhost', DEFAULT),
 (TRUE, 5, 'http://localhost/sleep/1/25', DEFAULT), 
 (FALSE, DEFAULT, 'http://localhost/sleep/1', 'SUCCESSFUL'), 
 (FALSE, DEFAULT, 'http://localhost/sleep/1/25', 'SKIPPED')""".format(prefix=self.prefix), )
-        return queries if self.testing is not None else self.execute_queries(queries)
+        return queries if self.testing is True else self.execute_queries(queries)
 
     def drop_db(self):
         """Remove the tables in PostgreSQL"""
-        queries = ("Drop TABLE {prefix}url_performance_metrics RESTRICT".format(prefix=self.prefix),
-                   "Drop TABLE {prefix}target_urls RESTRICT".format(prefix=self.prefix))
-        return queries if self.testing is not None else self.execute_queries(queries)
+        queries = ("Drop TABLE IF EXISTS {prefix}url_performance_metrics RESTRICT".format(prefix=self.prefix),
+                   "Drop TABLE IF EXISTS {prefix}target_urls RESTRICT".format(prefix=self.prefix))
+        return queries if self.testing is True else self.execute_queries(queries)
 
     def insert_sample_measurements(self, measurements=None):
         isSuccessful = True
