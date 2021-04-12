@@ -44,6 +44,29 @@ To install the necessary packages:
 pip install -r requirements.txt
 ```
 
+### Setting up environment variables
+
+This app requires setting up a few environment variables
+
+#### On Linux
+```bash
+export POSTGRES_DB_USER=xxx
+export POSTGRES_DB_PASSWORD=xxx
+export POSTGRES_DB_HOST=xxx
+export POSTGRES_DB_PORT=xxx
+export POSTGRES_DB_DATABASE=xxx
+export TARGET_SIMULATOR_HOST=https://simple-flask-website-simulator.herokuapp.com
+```
+
+#### On Windows
+```bash
+set POSTGRES_DB_USER=xxx
+set POSTGRES_DB_PASSWORD=xxx
+set POSTGRES_DB_HOST=xxx
+set POSTGRES_DB_PORT=xxx
+set POSTGRES_DB_DATABASE=xxx
+set TARGET_SIMULATOR_HOST=https://simple-flask-website-simulator.herokuapp.com
+```
 ---
 
 ##Requirements
