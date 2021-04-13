@@ -56,6 +56,10 @@ export POSTGRES_DB_HOST=xxx
 export POSTGRES_DB_PORT=xxx
 export POSTGRES_DB_DATABASE=xxx
 export TARGET_SIMULATOR_HOST=https://simple-flask-website-simulator.herokuapp.com
+export KAFKA_HOST_PORT=xxx
+export KAFKA_TOPIC=xxx
+export KAFKA_CLIENT_ID=xxx
+export KAFKA_GROUP_ID=xxx
 ```
 
 #### On Windows
@@ -66,7 +70,19 @@ set POSTGRES_DB_HOST=xxx
 set POSTGRES_DB_PORT=xxx
 set POSTGRES_DB_DATABASE=xxx
 set TARGET_SIMULATOR_HOST=https://simple-flask-website-simulator.herokuapp.com
+set KAFKA_HOST_PORT=xxx
+set KAFKA_TOPIC=xxx
+set KAFKA_CLIENT_ID=xxx
+set KAFKA_GROUP_ID=xxx
 ```
+
+## Kafka
+
+In order to establish a connection to Kafka the following files need to be placed at the root of the project.   
+
+1. ca.pem
+1. service.cert
+1. service.key
 ---
 
 ## Requirements
