@@ -28,14 +28,14 @@ if __name__ == "__main__":
             print_help_options()
             has_valid_action = True
         elif re.compile(r"^--force-init-db$", re.IGNORECASE).match(action):
-            app = database.create_producer()
-            app.drop_db()
-            app.create_db()
-            app.seed_db()
+            pg_db = database.create_postgres_db()
+            pg_db.drop_db()
+            pg_db.create_db()
+            pg_db.seed_db()
             has_valid_action = True
         elif re.compile(r"^run$", re.IGNORECASE).match(action):
             app = consumer.create_consumer()
-            app.run('website metrics')
+            app.run()
             has_valid_action = True
     if not has_valid_action:
         print_help_options()
