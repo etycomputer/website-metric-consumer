@@ -27,7 +27,7 @@ class MyPostgresTest(unittest.TestCase):
 
     def test_create_db(self):
         result = self.my_db.create_db()
-        self.assertEqual(3, len(result))
+        self.assertEqual(2, len(result))
         for query_cmd in result:
             re.compile(r"^testing_$", re.IGNORECASE).match(query_cmd)
 

@@ -1,6 +1,7 @@
 import unittest
 from tests import app_factory
 from config import integration_mode
+from datetime import datetime, timezone
 
 
 class MyPostgresTest(unittest.TestCase):
@@ -26,6 +27,35 @@ class MyPostgresTest(unittest.TestCase):
         self.assertTrue(self.my_db.drop_db())
         self.assertTrue(self.my_db.create_db())
         self.assertTrue(self.my_db.seed_db())
+        self.assertTrue(self.my_db.drop_db())
+
+    def test_get_urls(self):
+        if integration_mode is False:
+            self.assertTrue(True)
+            return
+        self.assertTrue(self.my_db.drop_db())
+        self.assertTrue(self.my_db.create_db())
+        self.assertTrue(self.my_db.seed_db())
+        url_result = self.my_db.get_urls()
+        self.assertEqual(2, len(url_result))
+        for url in url_result:
+            self.assertEqual(4, len(url_result[url]))
+            self.assertEqual({'url_id', 'sample_frequency_s', 'url_path', 'regex_pattern'}, url_result[url].keys())
+        self.assertTrue(self.my_db.drop_db())
+
+    def test_insert_measurements(self):
+        if integration_mode is False:
+            self.assertTrue(True)
+            return
+        measurements = [
+            [6, datetime.now(timezone.utc).__str__(), 200, 1.166535, True],
+            [5, datetime.now(timezone.utc).__str__(), 200, 2.170638, True]
+        ]
+        self.assertTrue(self.my_db.drop_db())
+        self.assertTrue(self.my_db.create_db())
+        self.assertTrue(self.my_db.seed_db())
+        isSuccessful = self.my_db.insert_measurements(measurements)
+        self.assertTrue(isSuccessful)
         self.assertTrue(self.my_db.drop_db())
 
 
